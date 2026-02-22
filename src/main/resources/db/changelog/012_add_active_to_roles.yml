@@ -1,0 +1,14 @@
+databaseChangeLog:
+    - changeSet:
+          id: 012_add_active_to_roles
+          author: tola
+          changes:
+              - addColumn:
+                    tableName: roles
+                    columns:
+                        - column:
+                              name: active
+                              type: BOOLEAN
+                              defaultValueBoolean: true
+                              constraints:
+                                  nullable: true

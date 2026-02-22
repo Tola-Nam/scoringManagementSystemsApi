@@ -1,0 +1,63 @@
+databaseChangeLog:
+    - changeSet:
+          id: 010_create_upload_batches_table
+          author: tola.dev001@gmail.com
+          changes:
+              - createTable:
+                    tableName: upload_batches
+                    columns:
+                        - column:
+                              name: upload_batch_id
+                              type: uuid
+                              defaultValueComputed: gen_random_uuid() # 🔥 auto-generate UUID
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                        - column:
+                              name: file_name
+                              type: varchar(255)
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: user_id
+                              type: uuid
+                        - column:
+                              name: status
+                              type: varchar(20)
+                              defaultValue: "PENDING"
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: total_rows
+                              type: integer
+                              defaultValueNumeric: 0
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: success_rows
+                              type: integer
+                              defaultValueNumeric: 0
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: fail_row
+                              type: integer
+                              defaultValueNumeric: 0
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: create_at
+                              type: timestamp
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: completed_at
+                              type: timestamp
+                              constraints:
+                                  nullable: false
+              - addForeignKeyConstraint:
+                    baseTableName: upload_batches
+                    baseColumnNames: user_id
+                    referencedTableName: users
+                    referencedColumnNames: user_id
+                    constraintName: fk_upload_batches_users

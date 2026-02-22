@@ -1,0 +1,41 @@
+databaseChangeLog:
+    - changeSet:
+          id: 003_create_users_table
+          author: tola.dev001@gmail.com
+          changes:
+              - createTable:
+                    tableName: users
+                    columns:
+                        - column:
+                              name: user_id
+                              type: uuid
+                              defaultValueComputed: gen_random_uuid() # 🔥 auto-generate UUID
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                        - column:
+                              name: user_name
+                              type: varchar(100)
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: password_hash
+                              type: text
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: role_id
+                              type: uuid
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: created_at
+                              type: timestamp
+                              constraints:
+                                  nullable: false
+              - addForeignKeyConstraint:
+                    baseTableName: users
+                    baseColumnNames: role_id
+                    referencedTableName: roles
+                    referencedColumnNames: role_id
+                    constraintName: fk_users_roles

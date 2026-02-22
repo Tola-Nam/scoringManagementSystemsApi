@@ -1,0 +1,40 @@
+databaseChangeLog:
+    - changeSet:
+          id: 010_create_upload_errors_table
+          author: tola.dev001@gmail.com
+          changes:
+              - createTable:
+                    tableName: upload_errors
+                    columns:
+                        - column:
+                              name: upload_error_id
+                              type: uuid
+                              defaultValueComputed: gen_random_uuid() # 🔥 auto-generate UUID
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                        - column:
+                              name: upload_batch_id
+                              type: uuid
+                        - column:
+                              name: row_name
+                              type: integer
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: error_message
+                              type: text
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: raw_data
+                              type: jsonb
+                        - column:
+                              name: create_at
+                              type: timestamp
+              - addForeignKeyConstraint:
+                    baseTableName: upload_errors
+                    baseColumnNames: upload_batch_id
+                    referencedTableName: upload_batches
+                    referencedColumnNames: upload_batch_id
+                    constraintName: fk_upload_errors_batches

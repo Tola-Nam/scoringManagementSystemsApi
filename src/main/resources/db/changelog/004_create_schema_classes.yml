@@ -1,0 +1,20 @@
+databaseChangeLog:
+    - changeSet:
+          id: 004_create_classes_table
+          author: tola.dev001@gmail.com
+          changes:
+              - createTable:
+                    tableName: classes
+                    columns:
+                        - column:
+                              name: class_id
+                              type: uuid
+                              defaultValueComputed: gen_random_uuid() # 🔥 auto-generate UUID
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                        - column:
+                              name: class_name
+                              type: varchar(100)
+                              constraints:
+                                  nullable: false

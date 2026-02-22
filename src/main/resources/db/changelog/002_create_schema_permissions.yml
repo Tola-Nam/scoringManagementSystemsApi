@@ -1,0 +1,20 @@
+databaseChangeLog:
+    - changeSet:
+          id: 002_create_permissions_table
+          author: tola.dev001@gmail.com
+          changes:
+              - createTable:
+                    tableName: permissions
+                    columns:
+                        - column:
+                              name: permission_id
+                              type: uuid
+                              defaultValueComputed: gen_random_uuid()
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                        - column:
+                              name: permission_name
+                              type: varchar(100)
+                              constraints:
+                                  nullable: false
