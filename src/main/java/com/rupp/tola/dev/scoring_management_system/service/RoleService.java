@@ -15,4 +15,7 @@ public interface RoleService {
 	List<Roles> findByActive(Boolean status);
 
 	Roles editRole(UUID id, Roles rolesUpdateRoles);
+
+	Roles updateStatus(UUID id, Boolean active);
+
 }
