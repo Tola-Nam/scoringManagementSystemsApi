@@ -17,8 +17,10 @@ public class Permissions {
 	@UuidGenerator(style = UuidGenerator.Style.RANDOM)
 	@Column(name = "permission_id", columnDefinition = "uuid", updatable = false, nullable = false)
 	private UUID id;
-	
+
 	@Column(name = "permission_name", length = 100, nullable = false)
 	private String name;
+
+	private Boolean status;
 
 }

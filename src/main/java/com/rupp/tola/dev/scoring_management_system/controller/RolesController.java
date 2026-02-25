@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -56,5 +57,11 @@ public class RolesController {
 		Roles roles = RolesMapper.INSTANCE.toRoles(dto);
 		Roles editRole = roleService.editRole(roleid, roles);
 		return ResponseEntity.ok(RolesMapper.INSTANCE.toRolesDTO(editRole));
+	}
+
+	@PatchMapping("{roleId}/status")
+	public ResponseEntity<?> updateStatus(@PathVariable("roleId") UUID id, @RequestParam Boolean status) {
+		Roles updateStatus = roleService.updateStatus(id, status);
+		return ResponseEntity.ok(updateStatus);
 	}
 }
