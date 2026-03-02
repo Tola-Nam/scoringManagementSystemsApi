@@ -5,10 +5,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.rupp.tola.dev.scoring_management_system.Mapper.UserMapper;
+import com.rupp.tola.dev.scoring_management_system.mapper.UserMapper;
 import com.rupp.tola.dev.scoring_management_system.repository.UsersRepository;
 import com.rupp.tola.dev.scoring_management_system.service.EmailService;
-import com.rupp.tola.dev.scoring_management_system.service.util.JwtTokenUtil;
+import com.rupp.tola.dev.scoring_management_system.backup.Backup_JwtTokenUtil;
 
 @SpringBootTest(properties = "app.cors.allowed-origins=http://localhost:4200")
 class ScoringManagementSystemApplicationTests {
@@ -26,10 +26,10 @@ class ScoringManagementSystemApplicationTests {
 	private UserMapper userMapper;
 
 	@MockBean
-	private JwtTokenUtil jwtTokenUtil;
+	private Backup_JwtTokenUtil jwtTokenUtil;
 
-	@MockBean
-	private com.rupp.tola.dev.scoring_management_system.service.PasswordService passwordService; // <<< Add this
+//	@MockBean
+//	private PasswordService passwordService; // <<< Add this
 
 	@Test
 	void contextLoads() {
