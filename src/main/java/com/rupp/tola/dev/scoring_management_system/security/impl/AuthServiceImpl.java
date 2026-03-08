@@ -148,6 +148,7 @@ public class AuthServiceImpl implements AuthService {
 
 		if(users.getExpiryOtp().isBefore(Instant.now())) {
 			users.setVerifiedOtp(false);
+			users.setExpiryOtp(null);
 			userRepository.save(users);
 			throw new RuntimeException("Your OTP is expired you cannot change password.");
 		}

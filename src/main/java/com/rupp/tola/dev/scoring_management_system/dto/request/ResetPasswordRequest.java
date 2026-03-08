@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ResetPasswordRequest {
+
     @NotBlank(message = "Password is required.")
     @Size(min = 5 , message = "Password must be 5 characters up.")
     private String password;
+
 }

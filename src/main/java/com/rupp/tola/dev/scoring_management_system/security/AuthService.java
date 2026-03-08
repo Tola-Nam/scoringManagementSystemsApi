@@ -60,7 +60,7 @@ public interface AuthService {
 	UserResponse resetPassword(String token, ResetPasswordRequest request);
 
 	/**
-	 * Delete user account
+	 * Delete user account with UUID
 	 * @param uuid
 	 */
 	void delete(UUID uuid);

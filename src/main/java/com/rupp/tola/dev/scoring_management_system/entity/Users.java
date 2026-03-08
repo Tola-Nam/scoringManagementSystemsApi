@@ -74,7 +74,7 @@ public class Users implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles.stream()
 				.map(role -> {
-					String roleName = role.getName().name();
+					String roleName = role.getName();
 					if (!roleName.startsWith("ROLE_")) {
 						roleName = "ROLE_" + roleName;
 					}

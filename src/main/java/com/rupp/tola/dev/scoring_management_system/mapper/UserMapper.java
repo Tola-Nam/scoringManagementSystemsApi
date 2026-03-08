@@ -46,11 +46,12 @@ public abstract class UserMapper {
 		users.setVerificationToken(token);
 		users.setVerified(false);
 
-		Roles roles = rolesRepository.findByNameAndStatus(RoleName.ROLE_STAFF, RoleStatus.ACTIVE)
+		Roles roles = rolesRepository.findByNameAndStatus(RoleName.ROLE_STAFF.name() , RoleStatus.ACTIVE)
 				.orElseGet(() -> {
 					Roles role = new Roles();
-					role.setName(RoleName.ROLE_STAFF);
+					role.setName(RoleName.ROLE_STAFF.name());
 					role.setStatus(RoleStatus.ACTIVE);
+					role.setDescription("Default role using for new user registration.");
 					return rolesRepository.save(role);
 				});
 
@@ -62,7 +63,7 @@ public abstract class UserMapper {
 	public void addRoleToResponse(@MappingTarget UserResponse response, Users users) {
 		if (users.getRoles() != null) {
 			List<String> roles = users.getRoles().stream()
-					.map(role -> role.getName().name())
+					.map(Roles::getName)
 					.toList();
 			response.setRoles(roles);
 		}

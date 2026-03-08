@@ -13,6 +13,7 @@ import lombok.Data;
 @Entity
 @Table(name = "upload_errors")
 public class UploadErrors {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	@Column(name = "upload_error_id")

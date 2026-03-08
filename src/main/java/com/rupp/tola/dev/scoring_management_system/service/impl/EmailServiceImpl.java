@@ -60,8 +60,6 @@ public class EmailServiceImpl implements EmailService {
 		}
 	}
 
-// ------------------------------------------------------------------ private
-
 	private void sendEmail(String to, String token, String subject, String path, String message) {
 		try {
 			String actionUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path(path)

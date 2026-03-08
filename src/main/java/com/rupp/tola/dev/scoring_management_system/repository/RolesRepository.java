@@ -14,7 +14,11 @@ import com.rupp.tola.dev.scoring_management_system.entity.Roles;
 @Repository
 public interface RolesRepository extends JpaRepository<Roles, UUID> {
 
-	List<Roles> findByStatus(Boolean active);
+	boolean existsByName(String name);
 
-	Optional<Roles> findByNameAndStatus(RoleName name, RoleStatus status);
+	boolean existsByNameAndIdNot(String name, UUID id);
+
+	List<Roles> findByStatus(RoleStatus status);
+
+	Optional<Roles> findByNameAndStatus(String name, RoleStatus status);
 }

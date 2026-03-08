@@ -16,7 +16,8 @@ import java.util.UUID;
 @Builder
 public class RoleResponse {
     private UUID id;
-    private RoleName name;
+    private String name;
+    private String description;
     private RoleStatus status;
     private List<UUID> userId;
 }

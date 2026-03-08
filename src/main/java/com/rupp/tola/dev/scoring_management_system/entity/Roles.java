@@ -22,9 +22,11 @@ public class Roles {
 	@Column(name = "role_id")
 	private UUID id;
 
-	@Enumerated(EnumType.STRING)
 	@Column(name = "role_name", unique = true, nullable = false)
-	private RoleName name;
+	private String name;
+
+	@Column(name = "description" , nullable = false , length = 255)
+	private String description;
 
 	@Column(name = "status")
 	private RoleStatus status = RoleStatus.ACTIVE;

@@ -20,7 +20,11 @@ public class RoleRequest {
 
     @NotBlank(message = "Name is required.")
     @Size(min = 6 , max = 25 , message = "Name must be between 6 and 25 characters.")
-    private RoleName name;
+    private String name;
+
+    @NotBlank(message = "Description is required.")
+    @Size(min = 5 , max = 255 , message = "Description must be between 5 and 255 characters.")
+    private String description;
 
     @NotBlank(message = "Status is required.")
     private RoleStatus status;
