@@ -19,8 +19,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "students", indexes = { @Index(name = "idx_student_code", columnList = "student_code", unique = true) })
 public class Students {
+
 	@Id
+<<<<<<< HEAD
 	@UuidGenerator(style = UuidGenerator.Style.RANDOM)
+=======
+	@GeneratedValue(strategy = GenerationType.UUID)
+>>>>>>> 7fe9c6b319874c8fd8ea935a4508e16203c493e1
 	@Column(name = "student_id")
 	private UUID id;
 
