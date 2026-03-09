@@ -36,64 +36,24 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponseDto.failure(errors));
 	}
 
-<<<<<<< HEAD
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ApiResponseDto<Void>> handleGeneral(Exception ex) {
+
+	public ResponseEntity<ApiResponseDto<Void>> handleGeneral1(Exception ex) {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponseDto.failure(ex.getMessage()));
 	}
 
 // custom exception list of students do not have data it  database 
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException exception) {
-		ErrorResponse error = new ErrorResponse(
-				HttpStatus.NOT_FOUND.value(),
-				exception.getMessage(),
+		ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exception.getMessage(),
 				LocalDateTime.now());
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
-}
-=======
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponseDto<Void>> handleGeneral(Exception ex) {
-        log.error("Unexpected error: ", ex);
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponseDto.failure(ex.getMessage()));
-    }
-}
 
-// @ControllerAdvice
-// public class GlobalExceptionHandler {
-//
-// @ExceptionHandler(ApiException.class)
-// public ResponseEntity<?> handleApiException(ApiException e) {
-// ErrorResponse errorRespose = new ErrorResponse(e.getHttpStatus(),
-// e.getMessage());
-// return ResponseEntity.status(e.getHttpStatus()).body(errorRespose);
-// }
-//
-// @ExceptionHandler(IllegalArgumentException.class)
-// public ResponseEntity<Apiresponsedto<Void>>
-// handleIllegalArgument(IllegalArgumentException ex) {
-// return
-// ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Apiresponsedto.failure(ex.getMessage()));
-// }
-//
-// @ExceptionHandler(MethodArgumentNotValidException.class)
-// public ResponseEntity<Apiresponsedto<Void>>
-// handleValidation(MethodArgumentNotValidException ex) {
-// String errors =
-// ex.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage)
-// .collect(Collectors.joining(", "));
-//
-// return
-// ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Apiresponsedto.failure(errors));
-// }
-//
-// @ExceptionHandler(Exception.class)
-// public ResponseEntity<Apiresponsedto<Void>> handleGeneral(Exception ex) {
-// return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-// .body(Apiresponsedto.failure("An unexpected error occurred"));
-// }
-// }
->>>>>>> 9bfc6a03c9e812cece43d5ebac6224b74be05e57
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ApiResponseDto<Void>> handleGeneral(Exception ex) {
+		log.error("Unexpected error: ", ex);
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponseDto.failure(ex.getMessage()));
+	}
+}
