@@ -1,11 +1,12 @@
 package com.rupp.tola.dev.scoring_management_system.security;
 
-import com.rupp.tola.dev.scoring_management_system.filter.JwtAuthenticationFilter;
+import com.rupp.tola.dev.scoring_management_system.jwt.JwtAuthenticationFilter;
 import com.rupp.tola.dev.scoring_management_system.security.handler.CustomeAccessDeniedHandler;
 import com.rupp.tola.dev.scoring_management_system.security.handler.CustomeAuthenticationEntryPoint;
 
 import java.util.List;
 
+import com.rupp.tola.dev.scoring_management_system.service.AppUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

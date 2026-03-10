@@ -1,4 +1,4 @@
-package com.rupp.tola.dev.scoring_management_system.security;
+package com.rupp.tola.dev.scoring_management_system.service;
 
 import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.userdetails.User;

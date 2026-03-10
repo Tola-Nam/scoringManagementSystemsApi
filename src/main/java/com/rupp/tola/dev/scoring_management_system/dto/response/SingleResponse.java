@@ -1,4 +1,4 @@
-package com.rupp.tola.dev.scoring_management_system.data;
+package com.rupp.tola.dev.scoring_management_system.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

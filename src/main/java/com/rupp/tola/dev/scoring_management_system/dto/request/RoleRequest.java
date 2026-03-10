@@ -1,7 +1,5 @@
 package com.rupp.tola.dev.scoring_management_system.dto.request;
 
-import com.rupp.tola.dev.scoring_management_system.enums.RoleName;
-import com.rupp.tola.dev.scoring_management_system.enums.RoleStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -19,15 +17,14 @@ import java.util.UUID;
 public class RoleRequest {
 
     @NotBlank(message = "Name is required.")
-    @Size(min = 6 , max = 25 , message = "Name must be between 6 and 25 characters.")
+    @Size(min = 2, max = 25, message = "Name must be between 6 and 25 characters.")
     private String name;
 
     @NotBlank(message = "Description is required.")
-    @Size(min = 5 , max = 255 , message = "Description must be between 5 and 255 characters.")
+    @Size(min = 5, max = 255, message = "Description must be between 5 and 255 characters.")
     private String description;
 
-    @NotBlank(message = "Status is required.")
-    private RoleStatus status;
+    private String status;
 
-    private UUID userId;
+    private List<UUID> userIds;
 }

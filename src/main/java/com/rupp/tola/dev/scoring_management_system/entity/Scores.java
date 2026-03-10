@@ -4,15 +4,19 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import lombok.Data;
-
-@Data
 @Entity
-@Table(
-		name = "scores", uniqueConstraints = {
+@Table(name = "scores", uniqueConstraints = {
 		@UniqueConstraint(columnNames = { "student_id", "subject_id", "semester_id" })
 })
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Scores {
 
 	@Id

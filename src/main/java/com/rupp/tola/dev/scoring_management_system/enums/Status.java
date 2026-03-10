@@ -1,7 +1,7 @@
 package com.rupp.tola.dev.scoring_management_system.enums;
 
-public enum StudentStatus {
+public enum Status {
     ACTIVE,
-    PENDING,
-    IN_ACTIVE
+    INACTIVE,
+    DELETE
 }

@@ -1,6 +1,6 @@
 package com.rupp.tola.dev.scoring_management_system.exception;
 
-import com.rupp.tola.dev.scoring_management_system.data.ErrorResponse;
+import com.rupp.tola.dev.scoring_management_system.dto.response.ErrorResponse;
 import io.jsonwebtoken.JwtException;
 import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
@@ -53,12 +53,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected @Nullable ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        Map<String , Object> errorResponse = new HashMap<>();
+    protected @Nullable ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        Map<String, Object> errorResponse = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach((error) -> {
             errorResponse.put(error.getField(), error.getDefaultMessage());
         });
-        return ResponseEntity.badRequest().body(ErrorResponse.error(HttpStatus.BAD_REQUEST ,"Method argument not valid", errorResponse));
+        return ResponseEntity.badRequest()
+                .body(ErrorResponse.error(HttpStatus.BAD_REQUEST, "Method argument not valid", errorResponse));
+    }
+
+    @Override
+    protected @Nullable ResponseEntity<Object> handleHttpMessageNotReadable(
+            org.springframework.http.converter.HttpMessageNotReadableException ex, HttpHeaders headers,
+            HttpStatusCode status, WebRequest request) {
+        String exactErrorMsg = ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage();
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.error(HttpStatus.BAD_REQUEST,
+                        "Malformed JSON request or invalid accepted values (e.g. invalid Enum). Details: "
+                                + exactErrorMsg));
     }
 
     @ExceptionHandler(Exception.class)

@@ -4,21 +4,20 @@ import com.rupp.tola.dev.scoring_management_system.dto.request.RoleRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.response.RoleResponse;
 import com.rupp.tola.dev.scoring_management_system.entity.Roles;
 import com.rupp.tola.dev.scoring_management_system.entity.Users;
-import com.rupp.tola.dev.scoring_management_system.enums.RoleStatus;
 import com.rupp.tola.dev.scoring_management_system.mapper.RoleMapper;
 import com.rupp.tola.dev.scoring_management_system.repository.RolesRepository;
-import com.rupp.tola.dev.scoring_management_system.security.AuthService;
+import com.rupp.tola.dev.scoring_management_system.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.rupp.tola.dev.scoring_management_system.service.RoleService;
 import lombok.AllArgsConstructor;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
+@Transactional
 @AllArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
@@ -28,22 +27,36 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public RoleResponse create(RoleRequest request) {
+
+		if (rolesRepository.existsByName(request.getName())) {
+			log.info("Role already exists with the name {}", request.getName());
+			throw new IllegalArgumentException("Role name already exists");
+		}
+
+		Roles roles = roleMapper.toEntity(request);
 		String roleName = request.getName().toUpperCase();
 		if (!roleName.startsWith("ROLE_")) {
 			roleName = "ROLE_" + roleName;
 		}
 
-		if (rolesRepository.existsByName(roleName)) {
-			log.info("Role already exists with the name {}", roleName);
-			throw new IllegalArgumentException("Role name already exists");
-		}
-		Roles roles = roleMapper.toEntity(request);
 		roles.setName(roleName);
-		Users users = authService.getUser(request.getUserId());
-		roles.setUsers(List.of(users));
+		if (request.getUserIds() != null) {
+			List<Users> users = request.getUserIds().stream()
+					.map(userId -> {
+						Users user = authService.getUser(userId);
+						if (user.getRoles() != null && !user.getRoles().contains(roles)) {
+							user.getRoles().add(roles);
+						} else if (user.getRoles() == null) {
+							user.setRoles(List.of(roles));
+						}
+						return user;
+					})
+					.toList();
+			roles.setUsers(users);
+		}
 		Roles saved = rolesRepository.save(roles);
 		log.info("Role created with id {}", saved.getId());
-		return roleMapper.toResponse(saved);
+		return toResponse(saved);
 	}
 
 	@Override
@@ -56,7 +69,7 @@ public class RoleServiceImpl implements RoleService {
 			if (!roleName.startsWith("ROLE_")) {
 				roleName = "ROLE_" + roleName;
 			}
-			if (rolesRepository.existsByNameAndIdNot(roleName, uuid)) {
+			if (rolesRepository.existsByNameAndIdNot(roleName , uuid)) {
 				log.info("Role already exists with the name {}", roleName);
 				throw new IllegalArgumentException("Role name already exists");
 			}
@@ -64,6 +77,44 @@ public class RoleServiceImpl implements RoleService {
 		}
 
 		roleMapper.updateFromRequest(roles, request);
+
+		if (request.getUserIds() != null) {
+
+			List<Users> existsUsers = request.getUserIds().stream()
+					.map(authService::getUser)
+					.toList();
+
+			if (roles.getUsers() != null) {
+				roles.getUsers().stream()
+					.filter(user -> !existsUsers.contains(user))
+					.forEach(user -> {
+						if (user.getRoles() != null) {
+							user.getRoles().remove(roles);
+						}
+					});
+			}
+
+
+			existsUsers.forEach(user -> {
+				if (user.getRoles() != null && !user.getRoles().contains(roles)) {
+					user.getRoles().add(roles);
+				} else if (user.getRoles() == null) {
+					user.setRoles(List.of(roles));
+				}
+			});
+
+			roles.setUsers(existsUsers);
+		} else {
+			if (roles.getUsers() != null) {
+				roles.getUsers().forEach(user -> {
+					if (user.getRoles() != null) {
+						user.getRoles().remove(roles);
+					}
+				});
+				roles.getUsers().clear();
+			}
+		}
+
 		Roles saved = rolesRepository.save(roles);
 		log.info("Role updated with id {}", saved.getId());
 		return roleMapper.toResponse(saved);
@@ -81,7 +132,9 @@ public class RoleServiceImpl implements RoleService {
 	public List<RoleResponse> findAll() {
 		List<Roles> roles = rolesRepository.findAll();
 		log.info("Roles found with all {}", roles);
-		return roleMapper.toList(roles);
+		return roles.stream()
+				.map(this::toResponse)
+				.toList();
 	}
 
 	@Override
@@ -89,12 +142,23 @@ public class RoleServiceImpl implements RoleService {
 		Roles roles = rolesRepository.findById(uuid)
 				.orElseThrow(() -> new NoSuchElementException("Role not found with ID: " + uuid));
 		log.info("Role found with id {}", roles.getId());
-		return roleMapper.toResponse(roles);
+		return toResponse(roles);
 	}
 
 	@Override
-	public List<RoleResponse> findByStatus(RoleStatus status) {
-		List<Roles> roles = rolesRepository.findByStatus(RoleStatus.ACTIVE);
-		return roleMapper.toList(roles);
+	public List<RoleResponse> findByStatus(String status) {
+		List<Roles> roles = rolesRepository.findByStatus(status);
+		return roles.stream()
+				.map(this::toResponse)
+				.toList();
+	}
+
+	private RoleResponse toResponse(Roles role) {
+		RoleResponse response = roleMapper.toResponse(role);
+		List<UUID> uuids = role.getUsers().stream()
+				.map(Users::getId)
+				.toList();
+		response.setUserIds(uuids);
+		return response;
 	}
 }

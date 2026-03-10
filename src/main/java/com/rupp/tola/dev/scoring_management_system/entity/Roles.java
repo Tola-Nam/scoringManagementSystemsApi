@@ -1,13 +1,13 @@
 package com.rupp.tola.dev.scoring_management_system.entity;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import com.rupp.tola.dev.scoring_management_system.enums.RoleName;
-import com.rupp.tola.dev.scoring_management_system.enums.RoleStatus;
+import io.swagger.v3.oas.models.links.Link;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.userdetails.User;
 
 @Entity
 @Table(name = "roles")
@@ -29,9 +29,9 @@ public class Roles {
 	private String description;
 
 	@Column(name = "status")
-	private RoleStatus status = RoleStatus.ACTIVE;
+	private String status;
 
-	@ManyToMany(mappedBy = "roles")
-	private List<Users> users;
+	@ManyToMany(mappedBy = "roles" , cascade = {CascadeType.MERGE , CascadeType.PERSIST})
+	private List<Users> users = new LinkedList<>();
 
 }

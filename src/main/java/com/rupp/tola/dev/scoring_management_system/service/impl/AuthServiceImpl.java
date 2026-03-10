@@ -1,11 +1,15 @@
-package com.rupp.tola.dev.scoring_management_system.security.impl;
+package com.rupp.tola.dev.scoring_management_system.service.impl;
 
 import com.rupp.tola.dev.scoring_management_system.dto.request.AuthRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.request.ResetPasswordRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.request.UserRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.request.VerifyOtpRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.response.UserResponse;
+import com.rupp.tola.dev.scoring_management_system.entity.Roles;
+import com.rupp.tola.dev.scoring_management_system.enums.RoleName;
+import com.rupp.tola.dev.scoring_management_system.enums.Status;
 import com.rupp.tola.dev.scoring_management_system.jwt.JwtService;
+import com.rupp.tola.dev.scoring_management_system.repository.RolesRepository;
 import com.rupp.tola.dev.scoring_management_system.util.Util;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +25,12 @@ import com.rupp.tola.dev.scoring_management_system.entity.Users;
 import com.rupp.tola.dev.scoring_management_system.mapper.UserMapper;
 import com.rupp.tola.dev.scoring_management_system.repository.UsersRepository;
 import com.rupp.tola.dev.scoring_management_system.service.EmailService;
-import com.rupp.tola.dev.scoring_management_system.security.AuthService;
+import com.rupp.tola.dev.scoring_management_system.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -40,6 +45,7 @@ public class AuthServiceImpl implements AuthService {
 	private final UserMapper userMapper;
 	private final JwtService jwtService;
 	private final AuthenticationManager authenticationManager;
+	private final RolesRepository rolesRepository;
 
 	@Override
 	public UserResponse register(UserRequest request) {
@@ -59,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
 		Users users = userRepository.findByEmail(request.getEmail())
 				.orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + request.getEmail()));
 		Users saved = userRepository.save(users);
-		return userMapper.toResponse(saved);
+		return toResponse(saved);
 	}
 
 	@Override
@@ -68,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
 		Users user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-		if (!jwtService.isTokenExpiration(token) && !token.equals(user.getVerificationToken())) {
+		if (jwtService.isTokenExpiration(token) && !token.equals(user.getVerificationToken())) {
 			throw new JwtException("Jwt token is Expiry or isn't correct.");
 		}
 
@@ -80,7 +86,7 @@ public class AuthServiceImpl implements AuthService {
 		user.setVerified(true);
 		userRepository.save(user);
 
-		return userMapper.toResponse(user);
+		return toResponse(user);
 	}
 
 	private UserResponse handleExistingUser(Users existingUser) {
@@ -91,15 +97,32 @@ public class AuthServiceImpl implements AuthService {
 		existingUser.setVerificationToken(token);
 		userRepository.save(existingUser);
 		emailService.sendVerificationEmail(existingUser.getEmail(), token);
-		return userMapper.toResponse(existingUser);
+		return toResponse(existingUser);
 	}
 
 	private UserResponse createNewUser(UserRequest request) {
 		Users users = userMapper.toEntity(request);
+		users.setPassword(passwordEncoder.encode(request.getPassword()));
+
+		String token = jwtService.generateToken(request.getEmail());
+		users.setVerificationToken(token);
+		users.setVerified(false);
+
+		Roles roles = rolesRepository.findByNameAndStatus(RoleName.ROLE_STAFF.name() , Status.ACTIVE.name())
+				.orElseGet(() -> {
+					Roles role = new Roles();
+					role.setName(RoleName.ROLE_STAFF.name());
+					role.setStatus(Status.ACTIVE.name());
+					role.setDescription("Default role using for new user registration.");
+					return rolesRepository.save(role);
+				});
+
+		roles.setUsers(List.of(users));
+		users.setRoles(List.of(roles));
 		log.info("New user created: {}", users);
 		Users saved = userRepository.save(users);
 		emailService.sendVerificationEmail(saved.getEmail(), saved.getVerificationToken());
-		return userMapper.toResponse(saved);
+		return toResponse(saved);
 	}
 
 	@Override
@@ -158,7 +181,7 @@ public class AuthServiceImpl implements AuthService {
 		users.setPassword(passwordEncoder.encode(request.getPassword()));
 		log.info("Password have been reset by user email {}." , userEmail);
 		userRepository.save(users);
-		return userMapper.toResponse(users);
+		return toResponse(users);
 	}
 
 	@Override
@@ -172,7 +195,7 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public Page<UserResponse> findAll(Pageable pageable) {
 		Page<Users> users = userRepository.findAll(pageable);
-		return users.map(userMapper::toResponse);
+		return users.map(this::toResponse);
 	}
 
 	@Override
@@ -183,6 +206,16 @@ public class AuthServiceImpl implements AuthService {
 			throw new RuntimeException("User isn't verified account.");
 		}
 		return users;
+	}
+
+	private UserResponse toResponse(Users users) {
+		UserResponse response = userMapper.toResponse(users);
+		List<String> uuids = users.getRoles()
+				.stream()
+						.map(Roles::getName)
+								.toList();
+		response.setRoles(uuids);
+		return response;
 	}
 
 }

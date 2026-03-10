@@ -1,4 +1,4 @@
-package com.rupp.tola.dev.scoring_management_system.security;
+package com.rupp.tola.dev.scoring_management_system.service;
 
 import com.rupp.tola.dev.scoring_management_system.dto.request.AuthRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.request.ResetPasswordRequest;
@@ -6,12 +6,9 @@ import com.rupp.tola.dev.scoring_management_system.dto.request.UserRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.request.VerifyOtpRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.response.UserResponse;
 import com.rupp.tola.dev.scoring_management_system.entity.Users;
-import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 

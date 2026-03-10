@@ -1,16 +1,12 @@
 package com.rupp.tola.dev.scoring_management_system.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rupp.tola.dev.scoring_management_system.data.ErrorResponse;
+import com.rupp.tola.dev.scoring_management_system.dto.response.ErrorResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
