@@ -51,17 +51,14 @@ public class PermissionServiceImpl implements PermissionService {
 
 	@Override
 	public Optional<Permissions> getByStatus(Boolean status) {
-<<<<<<< HEAD:src/main/java/com/rupp/tola/dev/scoring_management_system/security/impl/PermissionServiceImpl.java
-
-		return permissionRepository.findByStatus(status).map(Optional::of).orElseGet(() -> {
-			return Optional.empty();
-		});
-=======
-		String message = "status not found";
-		Permissions permissions = permissionRepository.findByStatus(status)
-				.orElseThrow(() -> new ResourceNotFoundException(message));
-		return Optional.ofNullable(permissions);
->>>>>>> 7fe9c6b319874c8fd8ea935a4508e16203c493e1:src/main/java/com/rupp/tola/dev/scoring_management_system/service/impl/PermissionServiceImpl.java
+//		return permissionRepository.findByStatus(status).map(Optional::of).orElseGet(() -> {
+//			return Optional.empty();
+//		});
+//		String message = "status not found";
+//		Permissions permissions = permissionRepository.findByStatus(status)
+//				.orElseThrow(() -> new ResourceNotFoundException(message));
+//		return Optional.ofNullable(permissions);
+		return null;
 	}
 
 }

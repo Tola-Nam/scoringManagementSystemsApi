@@ -18,6 +18,5 @@ public interface StudentService {
 
 	List<Students> getStudents();
 
-//	Map<String, String> getByStatus(Boolean status);
 	Page<Students> getByStatusPagination(Map<String, String> param, Boolean status);
 }

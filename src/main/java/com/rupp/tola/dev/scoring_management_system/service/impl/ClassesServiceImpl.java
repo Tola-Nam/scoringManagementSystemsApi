@@ -26,7 +26,7 @@ public class ClassesServiceImpl implements ClassesService {
 	@Override
 	public List<Classes> getClasses(Boolean status) {
 		return Optional.of(classesRepository.findBystatus(status)).filter(list -> !list.isEmpty())
-				.orElseThrow(() -> new ResourceNotFoundException("No classes found", status));
+				.orElseThrow(() -> new ResourceNotFoundException("No classes found"));
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class ClassesServiceImpl implements ClassesService {
 	public Classes getById(UUID id) {
 		String message = "class id is not have.!";
 		return classesRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException(message, id));
+				.orElseThrow(() -> new ResourceNotFoundException(message + id));
 	}
 
 }
