@@ -8,9 +8,9 @@ import com.rupp.tola.dev.scoring_management_system.entity.Permissions;
 
 @Mapper(componentModel = "spring")
 public interface PermissionMapper {
-	PermissionMapper INSTANCE = Mappers.getMapper(PermissionMapper.class);
-
-	Permissions toPermissions(PermissionDTO permissionDTO);
-
-	PermissionDTO tPermissionDTO(Permissions permissions);
+//	PermissionMapper INSTANCE = Mappers.getMapper(PermissionMapper.class);
+//
+//	Permissions toPermissions(PermissionDTO permissionDTO);
+//
+//	PermissionDTO tPermissionDTO(Permissions permissions);
 }

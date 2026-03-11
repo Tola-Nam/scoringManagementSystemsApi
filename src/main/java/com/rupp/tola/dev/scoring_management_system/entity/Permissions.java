@@ -1,14 +1,22 @@
 package com.rupp.tola.dev.scoring_management_system.entity;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.UuidGenerator;
-
-import lombok.Data;
-
-@Data
 @Entity
+@Table(name = "permissions")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Permissions {
 
 	@Id
@@ -16,13 +24,20 @@ public class Permissions {
 	@Column(name = "permission_id")
 	private UUID id;
 
-	@Column(name = "permission_name", length = 100, nullable = false)
+	@Column(name = "permission_name" , nullable = false , length = 20)
 	private String name;
 
-	private String permission;
+	@Column(name = "permission_description" , nullable = false , length = 255)
+	private String description;
 
+	@Column(name = "permission_module" , nullable = false , length = 50)
+	private String module;
 
-	private Boolean status;
+	@CreationTimestamp
+	@Column(name = "created_at" , nullable = false , updatable = false)
+	private LocalDate createdAt;
 
+	@ManyToMany(mappedBy = "permissions" , fetch = FetchType.LAZY , cascade = {CascadeType.MERGE , CascadeType.PERSIST})
+	private Set<Roles> roles;
 
 }

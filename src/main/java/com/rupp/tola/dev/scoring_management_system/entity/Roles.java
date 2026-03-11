@@ -1,9 +1,6 @@
 package com.rupp.tola.dev.scoring_management_system.entity;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,5 +29,13 @@ public class Roles {
 
 	@ManyToMany(mappedBy = "roles" , cascade = {CascadeType.MERGE , CascadeType.PERSIST})
 	private List<Users> users = new ArrayList<>();
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "role_permission",
+			joinColumns = @JoinColumn(name = "role_id" , referencedColumnName = "role_id"),
+			inverseJoinColumns = @JoinColumn(name = "permission_id" , referencedColumnName = "permission_id")
+	)
+	private Set<Permissions> permissions;
 
 }
