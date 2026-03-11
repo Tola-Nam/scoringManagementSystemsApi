@@ -146,7 +146,7 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public List<RoleResponse> findByStatus(String status) {
+	public List<RoleResponse> findByActive(String status) {
 		List<Roles> roles = rolesRepository.findByStatus(status);
 		return roles.stream()
 				.map(this::toResponse)

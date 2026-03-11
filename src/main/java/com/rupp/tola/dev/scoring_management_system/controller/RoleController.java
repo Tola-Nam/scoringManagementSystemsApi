@@ -38,7 +38,7 @@ public class RoleController {
     @Operation(summary = "Retrieve all roles with RequestParam RoleStatus(ACTIVE , IN-ACTIVE , DELETE)")
     @GetMapping("/")
     public ResponseEntity<SingleResponse<List<RoleResponse>>> findByStatus(@RequestParam(defaultValue = "ACTIVE") String status) {
-        List<RoleResponse> responses = roleService.findByStatus(status);
+        List<RoleResponse> responses = roleService.findByActive(status);
         return ResponseEntity.ok().body(SingleResponse.success("Success to retrieve all roles.", responses));
     }
 

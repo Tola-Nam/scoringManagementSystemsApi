@@ -37,6 +37,9 @@ public class Permissions {
 	@Column(name = "created_at" , nullable = false , updatable = false)
 	private LocalDate createdAt;
 
+	@Column(name = "status" , nullable = false)
+	private Boolean status = true;
+
 	@ManyToMany(mappedBy = "permissions" , fetch = FetchType.LAZY , cascade = {CascadeType.MERGE , CascadeType.PERSIST})
 	private Set<Roles> roles;
 

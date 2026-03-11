@@ -11,11 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "students" ,
-indexes = {
-		@Index(name = "idx_student_code" , columnList = "student_code" , unique = true)
-}
-)
+@Table(name = "students", indexes = { @Index(name = "idx_student_code", columnList = "student_code", unique = true) })
 public class Students {
 
 	@Id

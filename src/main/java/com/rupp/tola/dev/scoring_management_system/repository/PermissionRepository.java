@@ -9,4 +9,5 @@ import com.rupp.tola.dev.scoring_management_system.entity.Permissions;
 
 @Repository
 public interface PermissionRepository extends JpaRepository<Permissions, UUID>{
+    java.util.Optional<Permissions> findByStatus(Boolean status);
 }
