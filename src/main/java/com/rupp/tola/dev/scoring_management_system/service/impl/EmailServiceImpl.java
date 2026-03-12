@@ -84,16 +84,16 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 
-	private String buildEmailContent(String subject , String message , int otp) {
-		return """
-				<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;
-				    border-radius: 8px; background-color: #f9f9f9; text-align: center;">
-				    <h2 style="color: #333;">%s</h2>
-				    <p style="font-size: 16px; color: #555;">%s</p>
-				    <h1>%s</h1>
-				</div>
-				""".formatted(subject , message , otp);
-	}
+	// private String buildEmailContent(String subject , String message , int otp) {
+	// 	return """
+	// 			<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;
+	// 			    border-radius: 8px; background-color: #f9f9f9; text-align: center;">
+	// 			    <h2 style="color: #333;">%s</h2>
+	// 			    <p style="font-size: 16px; color: #555;">%s</p>
+	// 			    <h1>%s</h1>
+	// 			</div>
+	// 			""".formatted(subject , message , otp);
+	// }
 
 	private String buildEmailContent(String subject, String message, String actionUrl) {
 		return """

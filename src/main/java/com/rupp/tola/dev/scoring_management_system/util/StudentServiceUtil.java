@@ -1,4 +1,4 @@
-package com.rupp.tola.dev.scoring_management_system.service.util;
+package com.rupp.tola.dev.scoring_management_system.util;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -1,18 +1,22 @@
-// package com.rupp.tola.dev.scoring_management_system.service;
-//
-// import java.util.Optional;
-// import java.util.UUID;
-//
-// import com.rupp.tola.dev.scoring_management_system.entity.Permissions;
-//
-// public interface PermissionService {
-// Permissions createPermissions(Permissions permissions);
-//
-// Permissions getById(UUID id);
-//
-// Permissions updatePermissionById(UUID id, Permissions permissionsUpdate);
-//
-// Permissions updatePermissionsByStatus(UUID id, Boolean status);
-//
-// Optional<Permissions> getByStatus(Boolean status);
-// }
+package com.rupp.tola.dev.scoring_management_system.service;
+
+import com.rupp.tola.dev.scoring_management_system.dto.request.PermissionRequest;
+import com.rupp.tola.dev.scoring_management_system.dto.response.PermissionResponse;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface PermissionService {
+
+    PermissionResponse create(PermissionRequest request);
+
+    PermissionResponse update(UUID id , PermissionRequest request);
+
+    void delete(UUID id);
+
+    List<PermissionResponse> findAll();
+
+    PermissionResponse findById(UUID id);
+
+    List<PermissionResponse> findByModule(String module);
+}

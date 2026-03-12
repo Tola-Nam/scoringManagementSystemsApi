@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Table(name = "subjects")
@@ -13,6 +12,7 @@ import org.hibernate.annotations.UuidGenerator;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Subjects {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	@Column(name = "subject_id")

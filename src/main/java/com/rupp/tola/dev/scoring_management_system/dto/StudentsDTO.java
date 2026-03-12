@@ -2,8 +2,6 @@ package com.rupp.tola.dev.scoring_management_system.dto;
 
 import java.util.UUID;
 
-import com.rupp.tola.dev.scoring_management_system.entity.Classes;
-
 import lombok.Data;
 
 @Data

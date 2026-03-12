@@ -35,10 +35,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -126,8 +123,8 @@ public class AuthServiceImpl implements AuthService {
 					return rolesRepository.save(role);
 				});
 
-		roles.setUsers(new ArrayList<>(List.of(users)));
-		users.setRoles(new ArrayList<>(List.of(roles)));
+		roles.setUsers(Set.of(users));
+		users.setRoles(Set.of(roles));
 		log.info("New user created: {}", users);
 		Users saved = userRepository.save(users);
 		emailService.sendVerificationEmail(saved.getEmail(), saved.getVerificationToken());

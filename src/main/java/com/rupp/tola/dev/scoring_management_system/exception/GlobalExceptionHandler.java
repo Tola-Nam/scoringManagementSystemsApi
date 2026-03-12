@@ -77,10 +77,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<ErrorResponse<?>> handleGeneral(Exception ex) {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorResponse.error(ex.getLocalizedMessage()));
 	}
+
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ErrorResponse<?>> handleNotFound(ResourceNotFoundException ex) {
 		var errorResponse = ErrorResponse.error(HttpStatus.NOT_FOUND,ex.getLocalizedMessage());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	}
+
+	@ExceptionHandler(DuplicateResourceException.class)
+	public ResponseEntity<ErrorResponse<?>> handleDuplicateResourceException(DuplicateResourceException ex) {
+		var errorResponse = ErrorResponse.error(ex.getLocalizedMessage());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
 	}
 
 }

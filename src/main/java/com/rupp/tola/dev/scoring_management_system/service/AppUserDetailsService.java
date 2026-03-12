@@ -23,10 +23,11 @@ public class AppUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Users user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
-
+                
         return User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
+                .authorities(user.getAuthorities())
                 .build();
     }
 }

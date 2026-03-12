@@ -3,10 +3,9 @@ package com.rupp.tola.dev.scoring_management_system.entity;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -68,22 +67,21 @@ public class Users implements UserDetails {
 			joinColumns = @JoinColumn(name = "user_id" , referencedColumnName = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id" , referencedColumnName = "role_id")
 	)
-	private List<Roles> roles = new ArrayList<>();
+	private Set<Roles> roles = new HashSet<>();
 
 	//	UserDetial config
 
 	@Override
 	@NullMarked
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return roles.stream()
-				.map(role -> {
-					String roleName = role.getName();
-					if (!roleName.startsWith("ROLE_")) {
-						roleName = "ROLE_" + roleName;
-					}
-					return new SimpleGrantedAuthority(roleName);
-				})
-				.toList();
+		Set<GrantedAuthority> authorities = new HashSet<>();
+		roles.forEach(role -> {
+			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+			role.getPermissions().forEach(permission -> {
+				authorities.add(new SimpleGrantedAuthority(permission.getName()));
+			});
+		});
+        return authorities;
 	}
 
 	@Override

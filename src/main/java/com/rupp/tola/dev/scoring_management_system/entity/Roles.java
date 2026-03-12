@@ -28,14 +28,14 @@ public class Roles {
 	private String status;
 
 	@ManyToMany(mappedBy = "roles" , cascade = {CascadeType.MERGE , CascadeType.PERSIST})
-	private List<Users> users = new ArrayList<>();
+	private Set<Users> users = new HashSet<>();
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "role_permission",
 			joinColumns = @JoinColumn(name = "role_id" , referencedColumnName = "role_id"),
 			inverseJoinColumns = @JoinColumn(name = "permission_id" , referencedColumnName = "permission_id")
 	)
-	private Set<Permissions> permissions;
+	private Set<Permissions> permissions = new HashSet<>();
 
 }

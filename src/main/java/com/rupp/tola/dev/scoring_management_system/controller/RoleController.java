@@ -1,5 +1,7 @@
 package com.rupp.tola.dev.scoring_management_system.controller;
 
+import com.rupp.tola.dev.scoring_management_system.dto.request.AssignPermissionRequest;
+import com.rupp.tola.dev.scoring_management_system.dto.request.PermissionRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.response.SingleResponse;
 import com.rupp.tola.dev.scoring_management_system.dto.request.RoleRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.response.RoleResponse;
@@ -61,6 +63,20 @@ public class RoleController {
     public ResponseEntity<SingleResponse<Void>> delete(@PathVariable UUID uuid) {
         roleService.delete(uuid);
         return ResponseEntity.ok().body(SingleResponse.success("Successfully deleted role." , null));
+    }
+
+    @Operation(summary = "Assign permission to role.")
+    @PostMapping("/{roleId}/permission")
+    public ResponseEntity<SingleResponse<RoleResponse>> assignPermission(@PathVariable UUID roleId, @Valid @RequestBody AssignPermissionRequest request) {
+        RoleResponse response = roleService.addPermission(roleId, request);
+        return ResponseEntity.ok().body(SingleResponse.success("Successfully assigned role.", response));
+    }
+
+    @Operation(summary = "Update Assign permission to role.")
+    @PutMapping("/{roleId}/permission")
+    public ResponseEntity<SingleResponse<RoleResponse>> updatePermission(@PathVariable UUID roleId, @Valid @RequestBody AssignPermissionRequest request) {
+        RoleResponse response = roleService.setPermission(roleId, request);
+        return ResponseEntity.ok().body(SingleResponse.success("Successfully updated role.", response));
     }
 
 }

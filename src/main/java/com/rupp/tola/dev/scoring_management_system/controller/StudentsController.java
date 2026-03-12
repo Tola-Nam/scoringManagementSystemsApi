@@ -32,16 +32,9 @@ public class StudentsController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(StudentsMapper.iNSTANCE.toStudentsDTO(students));
 	}
 
-// get all students
 	@GetMapping
 	public ResponseEntity<List<Students>> getStudents() {
 		return ResponseEntity.ok(studentService.getStudents());
 	}
 
-// get all student 
-//	@GetMapping("/getByStatus")
-//	public ResponseEntity<List<Students>> getByStatus(@RequestParam(defaultValue = "false") Boolean status,
-//			Map<String, String> param) {
-//		return ResponseEntity.ok(studentService.getByStatus(status));
-//	}
 }
