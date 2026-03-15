@@ -22,12 +22,6 @@ public class EmailServiceImpl implements EmailService {
 	@Value("${spring.mail.username}")
 	private String from;
 
-    // @Override
-	// public void sendVerificationEmail(String email, String verificationToken) {
-	// sendEmail(email, verificationToken, "Email Verification",
-	// "/req/signup/verify",
-	// "Click the button below to verify your email address:");
-	// }
 	@Override
 	public void sendVerificationEmail(String email, String verificationToken) {
 		sendEmail(email, verificationToken, "Email Verification", "/auth/signup/verify", // ← must match your
