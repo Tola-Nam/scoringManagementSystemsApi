@@ -205,9 +205,9 @@ public class StudentServiceImpl implements StudentService {
 
 			double score = Double.parseDouble(scoreValue);
 
-			Students student = new Students();
-			student.setStudentCode(studentCodeValue);
-			studentsRepository.save(student);
+//			Students student = new Students();
+//			student.setStudentCode(studentCodeValue);
+//			studentsRepository.save(student);
 
 			}
 
