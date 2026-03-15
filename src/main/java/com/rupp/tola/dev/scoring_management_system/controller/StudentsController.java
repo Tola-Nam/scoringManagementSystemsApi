@@ -1,6 +1,7 @@
 package com.rupp.tola.dev.scoring_management_system.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,13 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rupp.tola.dev.scoring_management_system.dto.StudentsDTO;
 import com.rupp.tola.dev.scoring_management_system.entity.Students;
 import com.rupp.tola.dev.scoring_management_system.mapper.StudentsMapper;
 import com.rupp.tola.dev.scoring_management_system.service.StudentService;
-import com.rupp.tola.dev.scoring_management_system.util.ExcelFileExporter;
 
 import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -42,16 +44,23 @@ public class StudentsController {
 		return ResponseEntity.ok(studentService.getStudents());
 	}
 
-// get all student 
-//	@GetMapping("/getByStatus")
-//	public ResponseEntity<List<Students>> getByStatus(@RequestParam(defaultValue = "false") Boolean status,
-//			Map<String, String> param) {
-//		return ResponseEntity.ok(studentService.getByStatus(status));
-//	}
+	// get all student 
+	//	@GetMapping("/getByStatus")
+	//	public ResponseEntity<List<Students>> getByStatus(@RequestParam(defaultValue = "false") Boolean status,
+	//			Map<String, String> param) {
+	//		return ResponseEntity.ok(studentService.getByStatus(status));
+	//	}
 
-	@GetMapping("/exportStudentToExcelFile")
-	public void exportStudentsToExcelFile(HttpServletResponse response) throws IOException {
+	@GetMapping(path = "/exportStudents")
+	public ResponseEntity<?> exportStudentsToExcelFile(HttpServletResponse response) throws IOException {
 		List<Students> listOfStudents = studentService.getStudents();
-		ExcelFileExporter.exportStudentsToExcelFile(response, listOfStudents);
+		return ResponseEntity.ok(listOfStudents);
 	}
+
+	@PostMapping(path = "/uploadStudents")
+	public ResponseEntity<?> uploadStudentToExcel(@RequestParam("files") MultipartFile file) {
+		Map<Integer, String> upload = studentService.uploadStudents(file);
+		return ResponseEntity.ok(upload);
+	}
+	
 }

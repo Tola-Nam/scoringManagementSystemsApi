@@ -6,10 +6,8 @@ import lombok.Data;
 
 @Data
 public class StudentsDTO {
-	
 	private String studentCode;
 	private String name;
 	private UUID classId;
 	private Boolean status = false;
-	
 }

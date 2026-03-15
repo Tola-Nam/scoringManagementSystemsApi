@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
 	@Value("${spring.mail.username}")
 	private String from;
 
-    // @Override
+    	// @Override
 	// public void sendVerificationEmail(String email, String verificationToken) {
 	// sendEmail(email, verificationToken, "Email Verification",
 	// "/req/signup/verify",
