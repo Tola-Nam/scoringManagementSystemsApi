@@ -95,4 +95,5 @@ public class AuthController {
 						ErrorResponse.error("User un authentication.")
 				));
 	}
+
 }

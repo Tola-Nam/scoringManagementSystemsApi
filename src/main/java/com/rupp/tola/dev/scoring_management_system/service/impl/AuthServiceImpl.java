@@ -61,10 +61,11 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public UserResponse login(AuthRequest request) {
-		authenticationManager.authenticate(
+		Authentication authToken = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
 						request.getEmail(),
 						request.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authToken);
 		Users users = userRepository.findByEmail(request.getEmail())
 				.orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + request.getEmail()));
 		Users saved = userRepository.save(users);

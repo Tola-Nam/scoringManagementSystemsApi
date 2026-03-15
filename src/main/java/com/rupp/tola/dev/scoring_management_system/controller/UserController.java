@@ -15,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.UUID;
@@ -66,6 +68,11 @@ public class UserController {
         Pageable pageable = PageRequest.of(number - 1 , size , Sort.by(direction , property.equalsIgnoreCase("id") ? "id" : property));
         Page<UserResponse> responses = authService.findAll(pageable);
         return ResponseEntity.ok().body(MultipleResponse.success("Retrieve all user with pagination.", responses));
+    }
+
+    @GetMapping("/is-authenticated")
+    public boolean isAuthenticated(@CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+        return authentication.isAuthenticated();
     }
 
 }
