@@ -1,0 +1,77 @@
+databaseChangeLog:
+    - changeSet:
+          id: 008_create_scores_table
+          author: tola.dev001@gmail.com
+          changes:
+              - createTable:
+                    tableName: scores
+                    columns:
+                        - column:
+                              name: score_id
+                              type: UUID
+                              defaultValueComputed: gen_random_uuid()
+                              constraints:
+                                  primaryKey: true
+                                  primaryKeyName: scores_pkey
+                                  nullable: false
+                        - column:
+                              name: student_id
+                              type: UUID
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: subject_id
+                              type: UUID
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: semester_id
+                              type: UUID
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: score
+                              type: numeric(5,2)
+                        - column:
+                              name: version
+                              type: INTEGER
+                              defaultValueNumeric: 1
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: user_id
+                              type: UUID
+                        - column:
+                              name: create_at
+                              type: TIMESTAMP WITHOUT TIME ZONE
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: upload_at
+                              type: TIMESTAMP WITHOUT TIME ZONE
+                              constraints:
+                                  nullable: false
+              - addForeignKeyConstraint:
+                    baseTableName: scores
+                    baseColumnNames: student_id
+                    referencedTableName: students
+                    referencedColumnNames: student_id
+                    constraintName: fk_scores_students
+              - addForeignKeyConstraint:
+                    baseTableName: scores
+                    baseColumnNames: subject_id
+                    referencedTableName: subjects
+                    referencedColumnNames: subject_id
+                    constraintName: fk_scores_subjects
+              - addForeignKeyConstraint:
+                    baseTableName: scores
+                    baseColumnNames: semester_id
+                    referencedTableName: semesters
+                    referencedColumnNames: semester_id
+                    constraintName: fk_scores_semesters
+              - addForeignKeyConstraint:
+                    baseTableName: scores
+                    baseColumnNames: user_id
+                    referencedTableName: users
+                    referencedColumnNames: user_id
+                    constraintName: fk_scores_users

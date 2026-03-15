@@ -1,0 +1,36 @@
+package com.rupp.tola.dev.scoring_management_system.service;
+
+import org.jspecify.annotations.NullMarked;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.rupp.tola.dev.scoring_management_system.entity.Users;
+import com.rupp.tola.dev.scoring_management_system.repository.UsersRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class AppUserDetailsService implements UserDetailsService {
+
+    private final UsersRepository userRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    @NullMarked
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Users user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
+                    
+        return User.builder()
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .authorities(user.getAuthorities())
+                .build();
+    }
+}

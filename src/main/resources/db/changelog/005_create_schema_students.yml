@@ -1,0 +1,40 @@
+databaseChangeLog:
+    - changeSet:
+          id: 005_create_students_table
+          author: tola.dev001@gmail.com
+          changes:
+              - createTable:
+                    tableName: students
+                    columns:
+                        - column:
+                              name: student_id
+                              type: uuid
+                              defaultValueComputed: gen_random_uuid() # 🔥 auto-generate UUID
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                        - column:
+                              name: student_code
+                              type: varchar(50)
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: name
+                              type: varchar(150)
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: class_id
+                              type: uuid
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: status
+                              type: boolean
+                              defaultValueBoolean: true # optional, default active
+              - addForeignKeyConstraint:
+                    baseTableName: students
+                    baseColumnNames: class_id
+                    referencedTableName: classes
+                    referencedColumnNames: class_id
+                    constraintName: fk_students_classes

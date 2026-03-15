@@ -1,0 +1,35 @@
+databaseChangeLog:
+    - changeSet:
+          id: 001_create_audit_logs_table
+          author: tola.dev001@gmail.com
+          changes:
+              - createTable:
+                    tableName: audit_logs
+                    columns:
+                        - column:
+                              name: audit_id
+                              type: uuid
+                              defaultValueComputed: gen_random_uuid() # 🔥 auto-generate UUID
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                        - column:
+                              name: table_name
+                              type: varchar(255)
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: record_id
+                              type: uuid
+                        - column:
+                              name: action
+                              type: text
+                        - column:
+                              name: old_data
+                              type: jsonb
+                        - column:
+                              name: new_data
+                              type: jsonb
+                        - column:
+                              name: change_at
+                              type: timestamp

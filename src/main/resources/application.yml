@@ -1,0 +1,71 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+app:
+  cors:
+    allowed-origins: ${ALLOW_ORIGINS:http://localhost:4200,http://localhost:5173}
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:4321/SM
+    username: SMUSER
+    password: SMPW
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+    show-sql: true
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    enabled: false
+    change-log: classpath:db/changelog/db.changeLog-master.yaml
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+      file-size-threshold: 2KB
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: namtola4444@gmail.com
+    password: zckf kihg bmpi azai
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        debug: false
+  
+  h2:
+    console:
+      enabled: true
+
+jwt:
+  secret: ${JWT_SECRET:your-super-secret-key-must-be-at-least-256-bits-long-for-hs256}
+  expiration-ms: 86400000 # 24 hours
+  expiration-refresh: 604800000 # 7 day
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  packages-to-scan: com.rupp.tola.dev.scoring_management_system
+
+# 0Auth02 config with google
+
