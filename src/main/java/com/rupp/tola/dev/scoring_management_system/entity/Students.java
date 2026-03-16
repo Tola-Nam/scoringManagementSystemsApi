@@ -28,8 +28,11 @@ public class Students {
 	@Column(name = "student_code", updatable = false, nullable = false)
 	private String studentCode;
 
-	@Column(name = "name", updatable = false, nullable = false)
-	private String name;
+	@Column(name = "first_name", updatable = false, nullable = false)
+	private String Firstname;
+
+	@Column(name = "last_name", updatable = false, nullable = false)
+	private String lastName;
 
 	@ManyToOne
 	@JoinColumn(name = "class_id")

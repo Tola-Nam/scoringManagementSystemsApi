@@ -30,13 +30,13 @@ public class StudentsController {
 
 	private final StudentService studentService;
 
-	@PostMapping
-	public ResponseEntity<StudentsDTO> createStudents(@RequestBody StudentsDTO studentsDTO) {
-		Students students = StudentsMapper.iNSTANCE.toStudents(studentsDTO);
-		students = studentService.createStudents(students);
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(StudentsMapper.iNSTANCE.toStudentsDTO(students));
-	}
+//	@PostMapping
+//	public ResponseEntity<StudentsDTO> createStudents(@RequestBody StudentsDTO studentsDTO) {
+//		Students students = StudentsMapper.iNSTANCE.toStudents(studentsDTO);
+//		students = studentService.createStudents(students);
+//
+//		return ResponseEntity.status(HttpStatus.CREATED).body(StudentsMapper.iNSTANCE.toStudentsDTO(students));
+//	}
 
 	// get all students
 	@GetMapping
@@ -50,17 +50,5 @@ public class StudentsController {
 	//			Map<String, String> param) {
 	//		return ResponseEntity.ok(studentService.getByStatus(status));
 	//	}
-
-	@GetMapping(path = "/exportStudents")
-	public ResponseEntity<?> exportStudentsToExcelFile(HttpServletResponse response) throws IOException {
-		List<Students> listOfStudents = studentService.getStudents();
-		return ResponseEntity.ok(listOfStudents);
-	}
-
-	@PostMapping(path = "/uploadStudents")
-	public ResponseEntity<?> uploadStudentToExcel(@RequestParam("files") MultipartFile file) {
-		Map<Integer, String> upload = studentService.uploadStudents(file);
-		return ResponseEntity.ok(upload);
-	}
 	
 }

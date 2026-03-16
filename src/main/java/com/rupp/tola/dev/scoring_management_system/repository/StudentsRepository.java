@@ -13,6 +13,5 @@ import com.rupp.tola.dev.scoring_management_system.entity.Students;
 @Repository
 public interface StudentsRepository extends JpaRepository<Students, UUID>, JpaSpecificationExecutor<Students> {
 	Optional<Students> findByClassesId(UUID id);
-
 	Optional<List<Students>> findByStatus(Boolean status);
 }

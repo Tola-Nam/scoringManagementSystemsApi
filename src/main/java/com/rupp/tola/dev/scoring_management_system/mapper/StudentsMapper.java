@@ -2,6 +2,8 @@ package com.rupp.tola.dev.scoring_management_system.mapper;
 
 import java.util.UUID;
 
+import com.rupp.tola.dev.scoring_management_system.dto.request.StudentRequest;
+import com.rupp.tola.dev.scoring_management_system.dto.response.StudentResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -15,14 +17,11 @@ import com.rupp.tola.dev.scoring_management_system.service.StudentService;
 public interface StudentsMapper {
 	StudentsMapper iNSTANCE = Mappers.getMapper(StudentsMapper.class);
 
-//	@Mapping(target = "classes", source = "classId")
-//	Students toStudents(StudentsDTO studentsDTO);
-	
 	@Mapping(target = "classes", source = "classId")
-	Students toStudents(StudentsDTO studentsDTO);
+	Students toEntity(StudentRequest request);
 
 	@Mapping(target = "classId", source = "classes.id")
-	StudentsDTO toStudentsDTO(Students students);
+	StudentResponse toResponse(Students students);
 
 	// THIS METHOD SOLVES YOUR ERROR
 	default Classes map(UUID value) {
