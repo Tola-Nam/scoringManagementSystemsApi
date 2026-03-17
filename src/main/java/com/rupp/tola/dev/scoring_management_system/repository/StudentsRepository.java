@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.rupp.tola.dev.scoring_management_system.dto.response.StudentResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -13,5 +14,5 @@ import com.rupp.tola.dev.scoring_management_system.entity.Students;
 @Repository
 public interface StudentsRepository extends JpaRepository<Students, UUID>, JpaSpecificationExecutor<Students> {
 	Optional<Students> findByClassesId(UUID id);
-	Optional<List<Students>> findByStatus(Boolean status);
+	List<Students> findByStatus(Boolean status);
 }

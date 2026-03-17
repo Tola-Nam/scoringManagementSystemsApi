@@ -12,13 +12,19 @@ import org.springframework.data.domain.Page;
 
 public interface StudentService {
 
-	StudentResponse createStudents(StudentRequest request);
+	StudentResponse create(StudentRequest request);
 
-	StudentResponse getById(UUID id);
+	StudentResponse findById(UUID uuid);
 
 	Optional<StudentResponse> findByClassesId(UUID id);
 
-	List<StudentResponse> getStudents();
+	List<StudentResponse> getAll();
+
+	List<StudentResponse> findByStatus(boolean status);
+
+	StudentResponse update(UUID uuid, StudentRequest request);
+
+	void delete(UUID uuid);
 
 	Page<StudentResponse> getByStatusPagination(Map<String, String> param, Boolean status);
 

@@ -37,7 +37,7 @@
 //
 //	@GetMapping("{permissionId}")
 //	public ResponseEntity<?> getPermissionById(@PathVariable("permissionId") UUID id) {
-//		Permissions permissionId = permissionService.getById(id);
+//		Permissions permissionId = permissionService.findById(id);
 //		return ResponseEntity.ok(PermissionMapper.INSTANCE.tPermissionDTO(permissionId));
 //	}
 //

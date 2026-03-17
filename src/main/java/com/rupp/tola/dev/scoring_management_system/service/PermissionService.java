@@ -8,7 +8,7 @@
 // public interface PermissionService {
 // Permissions createPermissions(Permissions permissions);
 //
-// Permissions getById(UUID id);
+// Permissions findById(UUID id);
 //
 // Permissions updatePermissionById(UUID id, Permissions permissionsUpdate);
 //

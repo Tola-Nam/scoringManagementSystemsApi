@@ -158,12 +158,16 @@ public class ExcelServiceImpl implements ExcelService{
                 c2.setCellStyle(bodyStyle);
 
                 Cell c3 = row.createCell(2);
-                c3.setCellValue(student.getName());
+                c3.setCellValue(student.getFirstname());
                 c3.setCellStyle(bodyStyle);
 
                 Cell c4 = row.createCell(3);
-                c4.setCellValue(student.getStatus());
+                c4.setCellValue(student.getLastName());
                 c4.setCellStyle(bodyStyle);
+
+                Cell c5 = row.createCell(4);
+                c5.setCellValue(student.getStatus());
+                c5.setCellStyle(bodyStyle);
             }
 
             sheet.autoSizeColumn(0);

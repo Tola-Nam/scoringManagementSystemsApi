@@ -30,7 +30,7 @@
 //// }
 ////
 //// @Override
-//// public Permissions getById(UUID id) {
+//// public Permissions findById(UUID id) {
 //// return permissionRepository.findById(id)
 //// .orElseThrow(() -> new ResourceNotFoundException("permmsionId id required:
 // " + id));
@@ -39,7 +39,7 @@
 //// @Override
 //// public Permissions updatePermissionById(UUID id, Permissions
 // permissionsUpdate) {
-//// Permissions permissions = getById(id);
+//// Permissions permissions = findById(id);
 //// permissions.setName(permissionsUpdate.getName());
 //// return permissionRepository.save(permissions);
 //// }
@@ -95,7 +95,7 @@
 // }
 //
 // @Override
-// public Permissions getById(UUID id) {
+// public Permissions findById(UUID id) {
 // return permissionRepository.findById(id)
 // .orElseThrow(() -> new ResourceNotFoundException("permmsionId id required: "
 // + id));
@@ -104,7 +104,7 @@
 // @Override
 // public Permissions updatePermissionById(UUID id, Permissions
 // permissionsUpdate) {
-// Permissions permissions = getById(id);
+// Permissions permissions = findById(id);
 // permissions.setName(permissionsUpdate.getName());
 // return permissionRepository.save(permissions);
 // }

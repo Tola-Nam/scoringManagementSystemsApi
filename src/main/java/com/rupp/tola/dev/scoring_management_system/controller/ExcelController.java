@@ -28,7 +28,7 @@ public class ExcelController {
 //    public void exportStudentsToExcelFile(HttpServletResponse response) throws IOException {
 //        response.setContentType("application/octet-stream");
 //        response.setHeader("Content-Disposition", "attachment; filename=students.xlsx");
-//        List<Students> students = studentService.getStudents();
+//        List<Students> students = studentService.getAll();
 //        List<StudentResponse> dtos = studentsMapper.toResponseList(students);
 //        excelService.exportToExcelFile(dtos, response.getOutputStream());
 //    }
