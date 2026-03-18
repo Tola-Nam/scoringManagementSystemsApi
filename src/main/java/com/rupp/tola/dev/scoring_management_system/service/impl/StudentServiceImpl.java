@@ -5,8 +5,11 @@ import java.util.*;
 
 import com.rupp.tola.dev.scoring_management_system.dto.request.StudentRequest;
 import com.rupp.tola.dev.scoring_management_system.dto.response.StudentResponse;
+import com.rupp.tola.dev.scoring_management_system.entity.Classes;
 import com.rupp.tola.dev.scoring_management_system.exception.ResourceNotFoundException;
 import com.rupp.tola.dev.scoring_management_system.mapper.StudentsMapper;
+import com.rupp.tola.dev.scoring_management_system.repository.ClassesRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,14 +26,19 @@ import lombok.RequiredArgsConstructor;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class StudentServiceImpl implements StudentService {
 
 	private final StudentsRepository studentsRepository;
+	private final ClassesRepository classesRepository;
 	private final StudentsMapper studentsMapper;
 
 	@Override
 	public StudentResponse create(StudentRequest request) {
 		Students students = studentsMapper.toEntity(request);
+		Classes classes = classesRepository.findById(request.getClassId())
+				.orElseThrow(() -> new ResourceNotFoundException("Classes not found: " + request.getClassId()));
+		students.setClasses(classes);
 		Students saved = studentsRepository.save(students);
 		return studentsMapper.toResponse(saved);
 	}
@@ -73,13 +81,21 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public StudentResponse update(UUID uuid, StudentRequest request) {
+	public StudentResponse update(UUID uuid, StudentRequest studentRequest) {
 		Students students = studentsRepository.findById(uuid)
 				.orElseThrow(() -> new NoSuchElementException("Student not found with ID: " + uuid));
 
-		students.setFirstname(request.getFirstName());
-		students.setLastName(request.getLastName());
-		students.setClasses(studentsMapper.map(request.getClassesId()));
+		students.setStudentCode(studentRequest.getStudentCode());
+		students.setClasses(studentsMapper.map(studentRequest.getClassId()));
+		students.setKhFirstName(studentRequest.getKhFirstName());
+		students.setKhLastName(studentRequest.getKhLastName());
+		students.setEnFirstname(studentRequest.getEnFirstName());
+		students.setEnlastName(studentRequest.getEnLastName());
+		students.setGender(studentRequest.getGender());
+		students.setDateOfBirth(studentRequest.getDateOfBirth());
+		students.setEmail(studentRequest.getEmail());
+		students.setPhoneNumber(studentRequest.getPhoneNumber());
+		students.setAddress(studentRequest.getAddress());
 
 		Students updated = studentsRepository.save(students);
 		log.info("Student Update with ID: {}", uuid);

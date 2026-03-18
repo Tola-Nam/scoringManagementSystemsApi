@@ -17,12 +17,12 @@ import com.rupp.tola.dev.scoring_management_system.service.StudentService;
 
 @Mapper(componentModel = "spring", uses = { StudentService.class })
 public interface StudentsMapper {
-	StudentsMapper iNSTANCE = Mappers.getMapper(StudentsMapper.class);
+	StudentsMapper INSTANCE = Mappers.getMapper(StudentsMapper.class);
 
-	@Mapping(target = "classes", source = "classId")
+	@Mapping(target = "classes", ignore = true)
 	Students toEntity(StudentRequest studentRequest);
 
-	@Mapping(target = "classesId", source = "classes.id")
+	@Mapping(target = "classId", source = "classes.id")
 	StudentResponse toResponse(Students students);
 
 	List<StudentResponse> toResponseList(List<Students> students);
