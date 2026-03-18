@@ -20,7 +20,7 @@ public interface StudentsMapper {
 	StudentsMapper iNSTANCE = Mappers.getMapper(StudentsMapper.class);
 
 	@Mapping(target = "classes", source = "classId")
-	Students toEntity(StudentRequest request);
+	Students toEntity(StudentRequest studentRequest);
 
 	@Mapping(target = "classesId", source = "classes.id")
 	StudentResponse toResponse(Students students);

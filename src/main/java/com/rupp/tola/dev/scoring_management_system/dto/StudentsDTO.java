@@ -7,7 +7,8 @@ import lombok.Data;
 @Data
 public class StudentsDTO {
 	private String studentCode;
-	private String name;
+	private String firstName;
+	private String LastNam;
 	private UUID classId;
 	private Boolean status = false;
 }
