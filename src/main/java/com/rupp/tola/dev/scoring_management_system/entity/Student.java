@@ -40,8 +40,7 @@ public class Students {
 	@JoinColumn(name = "class_id")
 	private Classes classes;
 
-	@Pattern(regexp = "[MF]", message = "Gender must be M or F")
-	@Column(name = "M/F", length = 1, nullable = false)
+	@Column(name = "gender", length = 1, nullable = false)
 	private String gender;
 
 	@Column(name = "std_dob")
